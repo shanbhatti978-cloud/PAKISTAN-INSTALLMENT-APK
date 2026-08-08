@@ -1,1 +1,1 @@
-Assets folder for Instalment Management System
+Assets for Instalment Management System

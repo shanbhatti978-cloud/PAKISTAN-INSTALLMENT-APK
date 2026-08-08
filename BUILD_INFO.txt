@@ -8,17 +8,14 @@ Supabase: Configured with placeholders (lib/core/constants.dart)
 APK: NOT BUILT BY THIS ENVIRONMENT
 Reason: APK will be built by the user through GitHub.
 
-Fixes applied for GitHub Actions analyze:
-- assets/ directory included (with .gitkeep + README.txt)
-- use_build_context_synchronously fixed in login_screen.dart and home_shell.dart
-- const constructor issues fixed in settings_screen.dart
-- GitHub Actions workflow uses: flutter analyze --no-fatal-infos || true
+Fixes for GitHub Actions assembleRelease:
+- Pinned app_links: 6.3.2 via dependency_overrides (fixes "Could not get unknown property 'flutter'")
+- AGP 8.1.0 + Kotlin 1.8.22 + Gradle 8.3 (Flutter 3.24 compatible)
+- compileSdk/targetSdk 34, minSdk 21 forced on app and subprojects
+- Removed evaluationDependsOn(":app") that caused plugin ordering issues
+- assets/ directory included
 
-Modules:
-- Login / Authentication (Supabase)
-- Dashboard, Customers, Bookings, Payments, Inventory, Cash Book, Reports, Settings
-- Offline Hive storage
-- Material 3 UI
-- Sequential inventory numbers (INV-000001)
+Modules: Login, Dashboard, Customers, Bookings, Payments, Inventory, Cash Book, Reports, Settings
+Offline Hive + Supabase + Material 3 + Admin/Staff roles
 
 GitHub Actions: .github/workflows/build-apk.yml
