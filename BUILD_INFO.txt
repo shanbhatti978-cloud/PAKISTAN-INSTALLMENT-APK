@@ -1,0 +1,32 @@
+Application Name: Instalment Management System
+Project: Flutter
+Source: instalment-pakk0.xlsx
+Status: SOURCE READY FOR GITHUB APK BUILD
+Flutter Version: 3.24.5
+Dart Version: 3.5.4
+Supabase: Configured with placeholders (lib/core/constants.dart)
+APK: NOT BUILT BY THIS ENVIRONMENT
+Reason: APK will be built by the user through GitHub.
+
+Modules included:
+- Login / Authentication (Supabase)
+- Dashboard
+- Customers (search by name/mobile/page no)
+- Bookings (remaining balance, recovery type)
+- Payments
+- Inventory (sequential INV-000001 numbers)
+- Cash Book
+- Reports
+- Settings (Admin/Staff role display)
+- Offline Hive storage
+- Material 3 UI
+
+GitHub Actions:
+.github/workflows/build-apk.yml
+Builds release APK and uploads as artifact.
+
+To use:
+1. Upload this project to GitHub
+2. Actions → Build Release APK will run automatically
+3. Download the APK artifact
+4. Set real Supabase URL + Anon Key in lib/core/constants.dart before first run
