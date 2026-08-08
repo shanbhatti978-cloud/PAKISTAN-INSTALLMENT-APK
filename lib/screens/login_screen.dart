@@ -15,6 +15,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     return Scaffold(
@@ -34,14 +41,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 32),
                   TextFormField(
                     controller: _email,
-                    decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder(), prefixIcon: Icon(Icons.email)),
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.email),
+                    ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _password,
-                    decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock)),
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.lock),
+                    ),
                     obscureText: true,
                     validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                   ),
@@ -58,13 +73,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           ? null
                           : () async {
                               if (!_formKey.currentState!.validate()) return;
+                              final navigator = Navigator.of(context);
                               final ok = await auth.login(_email.text.trim(), _password.text);
-                              if (ok && mounted) {
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomeShell()));
+                              if (!mounted) return;
+                              if (ok) {
+                                navigator.pushReplacement(
+                                  MaterialPageRoute(builder: (_) => const HomeShell()),
+                                );
                               }
                             },
                       child: auth.isLoading
-                          ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            )
                           : const Text('Login'),
                     ),
                   ),

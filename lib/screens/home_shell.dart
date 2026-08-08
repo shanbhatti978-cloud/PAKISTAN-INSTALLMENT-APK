@@ -47,6 +47,7 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       context.read<AppProvider>().loadAll();
     });
   }
@@ -58,14 +59,20 @@ class _HomeShellState extends State<HomeShell> {
       appBar: AppBar(
         title: Text(_titles[_index]),
         actions: [
-          if (auth.isAdmin) const Chip(label: Text('Admin'), visualDensity: VisualDensity.compact),
+          if (auth.isAdmin)
+            const Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: Chip(label: Text('Admin'), visualDensity: VisualDensity.compact),
+            ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
+              final navigator = Navigator.of(context);
               await auth.logout();
-              if (mounted) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
-              }
+              if (!mounted) return;
+              navigator.pushReplacement(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              );
             },
           ),
         ],
@@ -98,7 +105,16 @@ class _HomeShellState extends State<HomeShell> {
             ),
             for (int i = 0; i < _titles.length; i++)
               ListTile(
-                leading: Icon([Icons.dashboard, Icons.people, Icons.book, Icons.payment, Icons.inventory, Icons.account_balance_wallet, Icons.bar_chart, Icons.settings][i]),
+                leading: Icon([
+                  Icons.dashboard,
+                  Icons.people,
+                  Icons.book,
+                  Icons.payment,
+                  Icons.inventory,
+                  Icons.account_balance_wallet,
+                  Icons.bar_chart,
+                  Icons.settings,
+                ][i]),
                 title: Text(_titles[i]),
                 selected: _index == i,
                 onTap: () {
